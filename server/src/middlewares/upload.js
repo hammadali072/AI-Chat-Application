@@ -5,6 +5,7 @@ const fileFilter = (req, file, cb) => {
         cb(null, true);
     } else {
         cb(null, false);
+        cb(new Error("Only PDF files are allowed."));
     }
 }
 
