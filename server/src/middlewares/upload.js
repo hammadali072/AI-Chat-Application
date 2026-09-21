@@ -11,16 +11,6 @@ const fileFilter = (req, file, cb) => {
 
 const storage = multer.memoryStorage();
 
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, 'uploads/');
-//     },
-
-//     filename: (req, file, cb) => {
-//         cb(null, randomString(10) + '-' + file.originalname);
-//     }
-// })
-
 const multerOptions = { storage, fileFilter, limits: { fileSize: 31457280 } };
 
 const upload = multer(multerOptions);
