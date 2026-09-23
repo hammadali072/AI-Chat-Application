@@ -1,27 +1,6 @@
-/**
- * ChatInput — Pinned input bar at the bottom of the chat section.
- *
- * Props:
- *  - value       {string}   Controlled input value.
- *  - onChange    {function} Signature: (newValue: string) => void
- *  - onSend      {function} Signature: () => void
- *  - onKeyDown   {function} Raw keydown handler. Signature: (e) => void
- *  - isLoading   {boolean}  True while AI is responding.
- *  - isDisabled  {boolean}  True when no PDF has been uploaded.
- *  - placeholder {string}   Textarea placeholder text.
- *
- * TODO: wire up onChange   → message input state setter
- * TODO: wire up onSend     → send message handler
- * TODO: wire up onKeyDown  → Enter-to-send logic
- * TODO: wire up isLoading  → AI response pending flag
- * TODO: wire up isDisabled → uploadStatus !== 'success'
- */
-
-// 1. Third-party imports
 import clsx from 'clsx';
 import { PaperPlaneTiltIcon, ArrowClockwiseIcon } from '@phosphor-icons/react';
 
-// 2. Component
 const ChatInput = ({
   value = '',
   onChange,
@@ -29,83 +8,67 @@ const ChatInput = ({
   onKeyDown,
   isLoading = false,
   isDisabled = false,
-  placeholder = 'Ask something about the PDF…',
+  placeholder = 'Ask a question about your PDF document...',
 }) => {
   const canSend = !isLoading && !isDisabled && value.trim().length > 0;
 
-  return (
-    <div className="flex-shrink-0 px-4 py-3 border-t border-gray-100 bg-white">
+  const handleSend = () => {
+    if (canSend && onSend) {
+      onSend();
+    }
+  };
 
-      {/* Hint strip when no PDF is loaded */}
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    } else if (onKeyDown) {
+      onKeyDown(e);
+    }
+  };
+
+  return (
+    <div className="border-t border-black/5 bg-white p-3 sm:p-4">
       {isDisabled && (
-        <p className="text-center text-xs text-grey mb-2 select-none">
-          Upload a PDF above to start chatting.
+        <p className="mb-2 text-center text-xs font-medium text-grey select-none">
+          Please upload or select a PDF document above to begin asking questions.
         </p>
       )}
 
-      {/* Input row */}
       <div
         className={clsx(
-          'flex items-end gap-2 rounded-xl border px-3 py-2 bg-tint-gray duration-150',
+          'flex items-center gap-2 rounded-xl border p-2 duration-150',
           isDisabled
-            ? 'opacity-50 pointer-events-none border-gray-100'
-            : 'border-gray-200 focus-within:border-primary'
+            ? 'bg-tint-gray/60 border-black/5 opacity-60 pointer-events-none'
+            : 'bg-tint-gray border-black/10 focus-within:border-primary focus-within:bg-white focus-within:ring-2 focus-within:ring-primary/20'
         )}
       >
-        {/* Textarea */}
         <textarea
-          id="chat-input-field"
           rows={1}
           value={value}
-          onChange={
-            /* TODO: wire up onChange */
-            onChange ? (e) => onChange(e.target.value) : undefined
-          }
-          onKeyDown={
-            /* TODO: wire up onKeyDown */
-            onKeyDown
-          }
+          onChange={(e) => onChange?.(e.target.value)}
+          onKeyDown={handleKeyDown}
           disabled={isDisabled || isLoading}
           placeholder={placeholder}
-          aria-label="Chat message input"
-          className="flex-1 resize-none bg-transparent text-sm text-tint-black placeholder:text-grey leading-relaxed max-h-32 overflow-y-auto"
+          className="flex-1 resize-none bg-transparent px-2 text-sm text-tint-black placeholder:text-grey/70 max-h-28 overflow-y-auto leading-relaxed focus:outline-none"
         />
 
-        {/* Send button */}
         <button
-          id="chat-send-button"
           type="button"
+          onClick={handleSend}
           disabled={!canSend}
-          onClick={
-            /* TODO: wire up onSend */
-            onSend
-          }
-          aria-label="Send message"
-          className={clsx(
-            'btn-send flex-shrink-0 flex items-center justify-center size-8 rounded-lg duration-150'
-          )}
+          aria-label="Send question"
+          className="btn-gradient flex size-9 flex-shrink-0 items-center justify-center rounded-lg duration-150"
         >
           {isLoading ? (
-            <ArrowClockwiseIcon
-              size={14}
-              weight="bold"
-              style={{ animation: 'spin-slow 0.9s linear infinite' }}
-              aria-hidden="true"
-            />
+            <ArrowClockwiseIcon size={16} weight="bold" className="animate-spin" />
           ) : (
-            <PaperPlaneTiltIcon size={14} weight="fill" aria-hidden="true" />
+            <PaperPlaneTiltIcon size={16} weight="fill" />
           )}
         </button>
       </div>
-
-      {/* Keyboard hint */}
-      <p className="text-right text-[10px] text-grey mt-1.5 select-none">
-        <kbd className="px-1 py-px rounded bg-white border border-gray-200 font-sans text-[10px]">Enter</kbd>
-        {' '}to send
-      </p>
     </div>
   );
 };
 
-// 3. Export
 export default ChatInput;

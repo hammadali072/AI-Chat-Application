@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 @theme {
+  --font-DMSans: "DM Sans";
+
   --color-primary-start: #9973ff;
   --color-primary-end: #5635ad;
-
   --color-primary: #5635ad;
 
   --color-tint-gray: #f8f8f8;
   --color-black: #0a0a0a;
   --color-white: #ffffff;
-
   --color-tint-black: #2f2f2f;
   --color-grey: #4e4e4e;
 
@@ -17,7 +17,6 @@
   --shadow-shadow2: inset 0px 0px 16px #0a0a0a33;
   --shadow-shadow2-effect: inset 0px 0px 16px #1d4ed833;
   --shadow-inset: inset 0px 1px 0px #0a0a0a4d, inset 0px -1px 0px #0a0a0a4d;
-
 }
 
 @layer base {
@@ -32,7 +31,9 @@
   }
 
   body {
+    font-family: var(--font-DMSans);
     background-color: var(--color-tint-gray);
+    color: var(--color-tint-black);
   }
 
   body::-webkit-scrollbar {
@@ -50,28 +51,7 @@
 
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-color: color-mix(in srgb, var(--color-black) 65%, transparent);
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin: 0;
-    padding: 0;
-  }
-
-  ul,
-  li {
-    list-style: none;
-  }
-
-  a {
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
+    background-color: color-mix(in srgb, var(--color-black) 40%, transparent);
   }
 
   button {
@@ -81,62 +61,47 @@
     font: inherit;
   }
 
-  img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-  }
-
   input,
   select,
   textarea {
     outline: none;
   }
-
-  input:focus,
-  select:focus,
-  textarea:focus {
-    outline: none;
-  }
-
 }
 
-/* ── Component utilities ─────────────────────────────────── */
 @layer components {
 
-  /* Send button — gradient bg + lift on hover */
-  .btn-send {
-    background: linear-gradient(135deg, var(--color-primary-start), var(--color-primary-end));
+  /* Top-to-bottom gradient button */
+  .btn-gradient {
+    background: linear-gradient(180deg, var(--color-primary-start), var(--color-primary-end));
     color: var(--color-white);
+    box-shadow: 0 2px 8px rgba(86, 53, 173, 0.25);
   }
-  .btn-send:hover:not(:disabled) {
-    opacity: 0.88;
+
+  .btn-gradient:hover:not(:disabled) {
+    opacity: 0.93;
     transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(86, 53, 173, 0.35);
   }
-  .btn-send:active:not(:disabled) {
+
+  .btn-gradient:active:not(:disabled) {
     transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(86, 53, 173, 0.2);
   }
-  .btn-send:disabled {
-    background: #ebebeb;
-    color: #b0b0b0;
+
+  .btn-gradient:disabled {
+    opacity: 0.45;
     cursor: not-allowed;
+    box-shadow: none;
   }
 
-  /* Drop-zone — dashed border that highlights on hover */
-  .dropzone-base {
-    border: 1.5px dashed #d4d4d8;
+  /* Inset shadow card styling */
+  .card-inset {
     background-color: var(--color-white);
-  }
-  .dropzone-base:hover {
-    border-color: var(--color-primary-start);
-    background-color: #faf8ff;
-  }
-  .dropzone-active {
-    border-color: var(--color-primary) !important;
-    background-color: #f5f0ff !important;
+    box-shadow: var(--shadow-shadow1), var(--shadow-shadow2);
+    border: 1px solid rgba(10, 10, 10, 0.06);
   }
 
-  /* Thinking indicator dots */
+  /* Thinking dots animation */
   .thinking-dot {
     display: inline-block;
     width: 6px;
@@ -145,38 +110,33 @@
     background-color: var(--color-grey);
     animation: thinking-bounce 1.4s ease-in-out infinite;
   }
-  .thinking-dot:nth-child(2) { animation-delay: 0.2s; }
-  .thinking-dot:nth-child(3) { animation-delay: 0.4s; }
 
-  /* Bubble enter animations */
-  .bubble-user { animation: slide-in-right 0.2s cubic-bezier(0.22, 1, 0.36, 1) both; }
-  .bubble-ai   { animation: slide-in-left  0.2s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .thinking-dot:nth-child(2) {
+    animation-delay: 0.2s;
+  }
 
-  /* Upload status dot pulse */
-  .pulse-ring  { animation: status-pulse 1.5s ease-in-out infinite; }
+  .thinking-dot:nth-child(3) {
+    animation-delay: 0.4s;
+  }
 }
 
-/* ── Keyframes ───────────────────────────────────────────── */
 @keyframes thinking-bounce {
-  0%, 60%, 100% { transform: translateY(0);   opacity: 0.35; }
-  30%           { transform: translateY(-5px); opacity: 1;    }
-}
 
-@keyframes slide-in-right {
-  from { opacity: 0; transform: translateX(12px); }
-  to   { opacity: 1; transform: translateX(0);    }
-}
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
 
-@keyframes slide-in-left {
-  from { opacity: 0; transform: translateX(-12px); }
-  to   { opacity: 1; transform: translateX(0);     }
-}
-
-@keyframes status-pulse {
-  0%, 100% { opacity: 1;   }
-  50%      { opacity: 0.3; }
+  30% {
+    transform: translateY(-5px);
+    opacity: 1;
+  }
 }
 
 @keyframes spin-slow {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
