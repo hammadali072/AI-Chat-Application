@@ -8,7 +8,7 @@ const ChatInput = ({
   onKeyDown,
   isLoading = false,
   isDisabled = false,
-  placeholder = 'Ask a question about your PDF document...',
+  placeholder = 'Ask a question about your uploaded PDF content...',
 }) => {
   const canSend = !isLoading && !isDisabled && value.trim().length > 0;
 
@@ -31,7 +31,7 @@ const ChatInput = ({
     <div className="border-t border-black/5 bg-white p-3 sm:p-4">
       {isDisabled && (
         <p className="mb-2 text-center text-xs font-medium text-grey select-none">
-          Please upload or select a PDF document above to begin asking questions.
+          No PDF documents found. Please upload a document first to start querying AI.
         </p>
       )}
 
@@ -67,6 +67,10 @@ const ChatInput = ({
           )}
         </button>
       </div>
+      
+      <p className="mt-1.5 text-right text-[10px] text-grey">
+        Press <kbd className="rounded bg-tint-gray px-1 py-0.5 font-mono text-[10px] border border-black/10">Enter</kbd> to send
+      </p>
     </div>
   );
 };

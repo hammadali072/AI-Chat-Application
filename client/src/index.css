@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-DMSans: "DM Sans";
+  --font-DMSans: DM Sans;
 
   --color-primary-start: #9973ff;
   --color-primary-end: #5635ad;
@@ -33,7 +33,6 @@
   body {
     font-family: var(--font-DMSans);
     background-color: var(--color-tint-gray);
-    color: var(--color-tint-black);
   }
 
   body::-webkit-scrollbar {

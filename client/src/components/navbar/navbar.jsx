@@ -1,71 +1,47 @@
 import { useState } from 'react';
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
-import { ListIcon, XIcon, FilePdfIcon } from '@phosphor-icons/react';
+import { ListIcon, XIcon, FilePdfIcon, ChatCircleDotsIcon, UploadSimpleIcon } from '@phosphor-icons/react';
 
-const Navbar = ({ activeTab, onSelectTab }) => {
+const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  const navItems = [
+    { label: 'Upload Documents', path: '/upload' },
+    { label: 'AI Chatbot', path: '/chat' },
+  ];
 
   return (
     <header className="sticky top-0 z-30 w-full border-b border-black/5 bg-white/90 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        
+
         {/* Brand logo */}
-        <div className="flex items-center gap-3">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-b from-primary-start to-primary-end text-white shadow-sm">
+        <Link to="/" className="flex items-center gap-3">
+          <div className="flex size-9 items-center justify-center rounded-md bg-gradient-to-b from-primary-start to-primary-end text-white shadow-sm">
             <FilePdfIcon size={20} weight="bold" />
           </div>
-          <span className="text-lg font-bold tracking-tight text-tint-black">DocuMind</span>
-        </div>
-
-        {/* Desktop navigation */}
-        <nav className="hidden items-center gap-1 md:flex">
-          <button
-            type="button"
-            onClick={() => onSelectTab?.('upload')}
-            className={clsx(
-              'rounded-lg px-4 py-2 text-sm font-medium duration-150',
-              activeTab === 'upload'
-                ? 'bg-tint-gray text-primary font-semibold'
-                : 'text-grey hover:bg-tint-gray/60 hover:text-tint-black'
-            )}
-          >
-            Upload PDF
-          </button>
-          <button
-            type="button"
-            onClick={() => onSelectTab?.('demo')}
-            className={clsx(
-              'rounded-lg px-4 py-2 text-sm font-medium duration-150',
-              activeTab === 'demo'
-                ? 'bg-tint-gray text-primary font-semibold'
-                : 'text-grey hover:bg-tint-gray/60 hover:text-tint-black'
-            )}
-          >
-            Try Demo
-          </button>
-          <a
-            href="#my-documents"
-            className="rounded-lg px-4 py-2 text-sm font-medium text-grey duration-150 hover:bg-tint-gray/60 hover:text-tint-black"
-          >
-            My Documents
-          </a>
-        </nav>
+          <div className="leading-tight">
+            <span className="text-base font-bold tracking-tight text-tint-black block">DocuMind</span>
+          </div>
+        </Link>
 
         {/* Action CTAs */}
         <div className="hidden items-center gap-3 md:flex">
-          <button
-            type="button"
-            className="rounded-lg px-4 py-2 text-sm font-medium text-tint-black duration-150 hover:bg-tint-gray"
+          <Link
+            to="/upload"
+            className="inline-flex items-center gap-1.5 rounded-md px-3.5 py-2 text-sm font-medium text-tint-black duration-150 hover:bg-tint-gray"
           >
-            Sign In
-          </button>
-          <button
-            type="button"
-            onClick={() => onSelectTab?.('upload')}
-            className="btn-gradient rounded-xl px-4 py-2 text-sm font-medium duration-150"
+            <UploadSimpleIcon size={16} weight="bold" />
+            <span>Upload</span>
+          </Link>
+          <Link
+            to="/chat"
+            className="btn-gradient inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium duration-150"
           >
-            Get Started
-          </button>
+            <ChatCircleDotsIcon size={16} weight="bold" />
+            <span>Ask AI</span>
+          </Link>
         </div>
 
         {/* Mobile menu toggle */}
@@ -73,7 +49,7 @@ const Navbar = ({ activeTab, onSelectTab }) => {
           type="button"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle navigation menu"
-          className="flex size-10 items-center justify-center rounded-xl text-tint-black hover:bg-tint-gray md:hidden"
+          className="flex size-10 items-center justify-center rounded-lg text-tint-black hover:bg-tint-gray md:hidden"
         >
           <ListIcon size={22} weight="bold" />
         </button>
@@ -93,42 +69,28 @@ const Navbar = ({ activeTab, onSelectTab }) => {
             </button>
           </div>
           <div className="flex flex-col gap-2">
-            <button
-              type="button"
-              onClick={() => {
-                onSelectTab?.('upload');
-                setIsMobileMenuOpen(false);
-              }}
-              className={clsx(
-                'rounded-lg px-3 py-2 text-left text-sm font-medium',
-                activeTab === 'upload' ? 'bg-tint-gray text-primary font-semibold' : 'text-tint-black'
-              )}
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={clsx(
+                  'rounded-lg px-3 py-2 text-left text-sm font-medium',
+                  location.pathname === item.path
+                    ? 'bg-tint-gray text-primary font-semibold'
+                    : 'text-tint-black hover:bg-tint-gray/50'
+                )}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Link
+              to="/upload"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="btn-gradient mt-2 w-full rounded-lg py-2.5 text-center text-sm font-medium block"
             >
-              Upload PDF
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                onSelectTab?.('demo');
-                setIsMobileMenuOpen(false);
-              }}
-              className={clsx(
-                'rounded-lg px-3 py-2 text-left text-sm font-medium',
-                activeTab === 'demo' ? 'bg-tint-gray text-primary font-semibold' : 'text-tint-black'
-              )}
-            >
-              Try Demo
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                onSelectTab?.('upload');
-                setIsMobileMenuOpen(false);
-              }}
-              className="btn-gradient mt-2 w-full rounded-xl py-2.5 text-center text-sm font-medium"
-            >
-              Get Started
-            </button>
+              Upload Document
+            </Link>
           </div>
         </div>
       )}
