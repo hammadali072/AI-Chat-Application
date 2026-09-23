@@ -8,7 +8,7 @@ const ChatInput = ({
   onKeyDown,
   isLoading = false,
   isDisabled = false,
-  placeholder = 'Ask a question about your uploaded PDF content...',
+  placeholder = 'Ask a question about your PDF document...',
 }) => {
   const canSend = !isLoading && !isDisabled && value.trim().length > 0;
 
@@ -28,16 +28,16 @@ const ChatInput = ({
   };
 
   return (
-    <div className="border-t border-black/5 bg-white p-3 sm:p-4">
+    <div className="border-t border-black/5 p-3 sm:p-4">
       {isDisabled && (
         <p className="mb-2 text-center text-xs font-medium text-grey select-none">
-          No PDF documents found. Please upload a document first to start querying AI.
+          No PDF document selected or available. Please upload a PDF first.
         </p>
       )}
 
       <div
         className={clsx(
-          'flex items-center gap-2 rounded-xl border p-2 duration-150',
+          'flex items-center gap-2 rounded-xl border p-2 duration-150 shadow-xs',
           isDisabled
             ? 'bg-tint-gray/60 border-black/5 opacity-60 pointer-events-none'
             : 'bg-tint-gray border-black/10 focus-within:border-primary focus-within:bg-white focus-within:ring-2 focus-within:ring-primary/20'
@@ -50,7 +50,7 @@ const ChatInput = ({
           onKeyDown={handleKeyDown}
           disabled={isDisabled || isLoading}
           placeholder={placeholder}
-          className="flex-1 resize-none bg-transparent px-2 text-sm text-tint-black placeholder:text-grey/70 max-h-28 overflow-y-auto leading-relaxed focus:outline-none"
+          className="flex-1 resize-none bg-transparent px-2 text-sm text-tint-black placeholder:text-grey/60 max-h-28 overflow-y-auto leading-relaxed focus:outline-none"
         />
 
         <button
@@ -67,10 +67,6 @@ const ChatInput = ({
           )}
         </button>
       </div>
-      
-      <p className="mt-1.5 text-right text-[10px] text-grey">
-        Press <kbd className="rounded bg-tint-gray px-1 py-0.5 font-mono text-[10px] border border-black/10">Enter</kbd> to send
-      </p>
     </div>
   );
 };

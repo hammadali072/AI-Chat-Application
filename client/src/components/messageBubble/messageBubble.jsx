@@ -1,7 +1,7 @@
 import clsx from 'clsx';
-import { RobotIcon, UserIcon, WarningIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
+import { RobotIcon, UserIcon, WarningIcon } from '@phosphor-icons/react';
 
-const MessageBubble = ({ variant = 'ai', content = '', timestamp, matchedChunksInfo }) => {
+const MessageBubble = ({ variant = 'ai', content = '', timestamp }) => {
   const isUser = variant === 'user';
   const isThinking = variant === 'thinking';
   const isError = variant === 'error';
@@ -27,18 +27,9 @@ const MessageBubble = ({ variant = 'ai', content = '', timestamp, matchedChunksI
 
       {/* Bubble Container */}
       <div className={clsx('flex flex-col gap-1 max-w-[85%] sm:max-w-[75%]', isUser ? 'items-end' : 'items-start')}>
-        
-        {/* Chunk Grounding Tag for AI Messages */}
-        {!isUser && matchedChunksInfo && !isThinking && (
-          <div className="inline-flex items-center gap-1.5 rounded-md bg-primary/10 px-2 py-0.5 text-[11px] font-semibold text-primary select-none">
-            <MagnifyingGlassIcon size={12} weight="bold" />
-            <span>{matchedChunksInfo}</span>
-          </div>
-        )}
-
         <div
           className={clsx(
-            'rounded-2xl px-4 py-3 text-sm leading-relaxed duration-150',
+            'rounded-2xl px-4 py-3 text-sm leading-relaxed duration-150 shadow-xs',
             isUser
               ? 'btn-gradient text-white rounded-br-xs'
               : isError
@@ -48,7 +39,7 @@ const MessageBubble = ({ variant = 'ai', content = '', timestamp, matchedChunksI
         >
           {isThinking ? (
             <div className="flex items-center gap-2 py-1 px-1">
-              <span className="text-xs font-medium text-grey">Searching PDF chunks &amp; generating AI response...</span>
+              <span className="text-xs font-medium text-grey">Analyzing document &amp; generating answer...</span>
               <div className="flex items-center gap-1">
                 <span className="thinking-dot" />
                 <span className="thinking-dot" />

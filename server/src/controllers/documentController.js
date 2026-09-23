@@ -7,7 +7,6 @@ function preprocessText(text) {
     cleanedText = cleanedText.replace(/\d+ \| P a g e/g, "");
     cleanedText = cleanedText.replace(/\s+/g, " ");
     cleanedText = cleanedText.replace(//g, "-");
-    // cleanedText = cleanedText.replace(/[ \t]+/g, " ");
     cleanedText = cleanedText.replace(/\n\s*\n+/g, "\n\n");
 
     return cleanedText.toLowerCase().trim();
@@ -18,7 +17,6 @@ function pageText(text) {
     let index = 0;
     for (let i = 0; i < text.length - 1; i += 2) {
         const refineText = preprocessText(text[i]);
-        // pagedText.push({ pageNumber: Number(text[i + 1]), refineText });
         pagedText.push(
             chunkText(refineText, 300).map(chunk => {
                 return {
@@ -62,7 +60,6 @@ export async function documentController(req, res) {
     }
 
     const refinedResult = result.text.split(/-- (\d+) of \d+ --/g);
-
     const pagedText = pageText(refinedResult);
 
     const document = await documentModel.create({
@@ -78,4 +75,28 @@ export async function documentController(req, res) {
         size: req.file.size,
         mimeType: req.file.mimetype,
     });
+}
+
+export async function getAllDocuments(req, res) {
+    const documents = await documentModel.find({});
+
+    const documentList = documents.map(doc => ({
+        id: doc._id,
+        fileName: doc.fileName,
+        status: doc.status,
+        chunksCount: doc.chunks ? doc.chunks.length : 0,
+        uploadedAt: doc.createdAt,
+    }));
+
+    return res.status(200).json({ documents: documentList });
+}
+
+export async function deleteDocument(req, res) {
+    try {
+        const { id } = req.params;
+        await documentModel.findByIdAndDelete(id);
+        return res.status(200).json({ message: "Document deleted successfully." });
+    } catch (error) {
+        return res.status(500).json({ message: "Failed to delete document." });
+    }
 }

@@ -7,43 +7,42 @@ const HomePage = () => {
   return (
     <div className="min-h-screen bg-tint-gray flex flex-col">
 
-      {/* Top Header Navigation */}
       <Navbar />
 
-      {/* Main Screen Content */}
-      <main className="flex-1 mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 sm:py-12 flex flex-col justify-center">
+      <main className="flex-1 px-4 py-8 sm:py-12 flex flex-col justify-center">
+        <div className="container">
+          <div className="flex flex-col justify-center">
+            <HeroSection />
 
-        {/* Hero Section */}
-        <HeroSection />
+            <div className="mt-8 mb-6 text-center">
+              <h2 className="text-xl font-bold tracking-tight text-black sm:text-2xl">
+                Select Your Workspace
+              </h2>
+              <p className="mt-1 text-sm text-grey">
+                Choose an option below to manage PDF documents or start querying AI.
+              </p>
+            </div>
 
-        {/* Section Heading for Options */}
-        <div className="mt-8 mb-6 text-center">
-          <h2 className="text-xl font-bold tracking-tight text-black sm:text-2xl">
-            Select Your Workspace
-          </h2>
-          <p className="mt-1 text-sm text-grey">
-            Choose an option below to manage PDF documents or start querying AI.
-          </p>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <OptionCard
+                icon={UploadSimpleIcon}
+                title="Upload & Manage Documents"
+                description="Upload PDF lecture notes or course materials to your library and prepare them for instant Q&A."
+                badge="Step 1: Upload"
+                to="/upload"
+              />
+
+              <OptionCard
+                icon={ChatCircleDotsIcon}
+                title="Ask AI Chatbot"
+                description="Ask natural-language questions about your uploaded PDFs and receive accurate, instant answers."
+                badge="Step 2: Ask AI"
+                to="/chat"
+              />
+            </div>
+          </div>
         </div>
 
-        {/* Two Main Option Cards navigating to dedicated pages */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 max-w-3xl mx-auto w-full">
-          <OptionCard
-            icon={UploadSimpleIcon}
-            title="Upload & Manage Documents"
-            description="Upload PDF lecture notes or course materials. The system parses raw text page-by-page and splits content into indexed chunks in MongoDB."
-            badge="Step 1: Upload"
-            to="/upload"
-          />
-
-          <OptionCard
-            icon={ChatCircleDotsIcon}
-            title="Ask AI Chatbot"
-            description="Interactively ask natural-language questions. The system scores chunks by keyword relevance and grounds OpenRouter AI responses in your PDF."
-            badge="Step 2: Query AI"
-            to="/chat"
-          />
-        </div>
       </main>
     </div>
   );

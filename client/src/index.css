@@ -67,6 +67,18 @@
   }
 }
 
+@utility container {
+  max-width: 1320px;
+  padding-inline: 20px;
+  margin-inline: auto;
+}
+
+@utility container-fluid {
+  width: 100%;
+  padding-inline: 20px;
+  margin-inline: auto;
+}
+
 @layer components {
 
   /* Top-to-bottom gradient button */
