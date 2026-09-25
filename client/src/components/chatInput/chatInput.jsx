@@ -30,9 +30,7 @@ const ChatInput = ({
   return (
     <div className="border-t border-black/5 p-3 sm:p-4">
       {isDisabled && (
-        <p className="mb-2 text-center text-xs font-medium text-grey select-none">
-          No PDF document selected or available. Please upload a PDF first.
-        </p>
+        <p className="mb-2 text-center text-xs font-medium text-grey select-none">No PDF document selected or available. Please upload a PDF first.</p>
       )}
 
       <div

@@ -1,59 +1,78 @@
 import config from "../config/config";
+import { handleError } from "../utils/errorHandler";
 
 export async function uploadPDF(file) {
     const formData = new FormData();
     formData.append('pdf', file);
 
-    const response = await fetch(`${config.API_BASE_URL}/upload`, {
-        method: 'POST',
-        body: formData
-    });
+    try {
+        const response = await fetch(`${config.API_BASE_URL}/upload`, {
+            method: 'POST',
+            body: formData
+        });
+        const resData = await response.json();
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Upload failed.");
+        if (!response.ok) {
+            throw new Error(resData.message || 'Upload failed.');
+        }
+
+        return resData;
+    } catch (error) {
+        handleError(error, "Upload failed.");
     }
-
-    return response.json();
 }
 
 export async function askQuestion(question, documentId = null) {
-    const response = await fetch(`${config.API_BASE_URL}/ask`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question, documentId }),
-    });
+    try {
+        const response = await fetch(`${config.API_BASE_URL}/ask`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question, documentId }),
+        });
+        const resData = await response.json();
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to get answer');
+        if (!response.ok) {
+            throw new Error(resData.message || 'Failed to get answer.');
+        }
+
+        return resData;
+    } catch (error) {
+        handleError(error, "Failed to get answer.");
     }
-
-    return response.json();
 }
 
 export async function getAllDocuments() {
-    const response = await fetch(`${config.API_BASE_URL}`, {
-        method: 'GET',
-    });
+    try {
+        const response = await fetch(`${config.API_BASE_URL}`, {
+            method: 'GET',
+        });
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to load documents');
+        const resData = await response.json();
+
+        if (!response.ok) {
+            throw new Error(resData.message || 'Failed to load documents');
+        }
+
+        return resData;
+    } catch (error) {
+        handleError(error, "Failed to load documents.");
     }
-
-    return response.json();
 }
 
 export async function deleteDocument(documentId) {
-    const response = await fetch(`${config.API_BASE_URL}/${documentId}`, {
-        method: 'DELETE',
-    });
+    try {
+        const response = await fetch(`${config.API_BASE_URL}/${documentId}`, {
+            method: 'DELETE',
+        });
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to delete document');
+        const resData = await response.json();
+
+        if (!response.ok) {
+            throw new Error(resData.message || 'Failed to delete document.');
+        }
+
+        return resData;
+    } catch (error) {
+        handleError(error, "Failed to delete document.");
     }
-
-    return response.json();
 }

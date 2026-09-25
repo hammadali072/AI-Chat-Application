@@ -83,9 +83,7 @@ const UploadSection = ({
             </div>
 
             <p className="mt-3 text-sm font-semibold text-tint-black">Select a PDF file to upload</p>
-            <p className="text-xs text-grey mt-1">
-              Upload any PDF document from your device
-            </p>
+            <p className="text-xs text-grey mt-1">Upload any PDF document from your device</p>
 
             <label className="btn-gradient mt-4 inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold duration-150">
               <UploadSimpleIcon size={16} weight="bold" />
@@ -101,7 +99,6 @@ const UploadSection = ({
         )}
       </div>
 
-      {/* Error Message */}
       {uploadStatus === 'error' && errorMessage && (
         <p className="mt-3 text-xs font-medium text-red-500">{errorMessage}</p>
       )}

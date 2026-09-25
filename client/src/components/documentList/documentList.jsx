@@ -29,7 +29,7 @@ const DocumentList = ({ documents = [], onDeleteDocument }) => {
       <div className="mt-4 flex flex-col gap-3">
         {documents.map((doc) => (
           <div
-            key={doc.id || doc._id}
+            key={doc.id}
             className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl bg-tint-gray/60 p-4 border border-black/5 hover:bg-tint-gray duration-150"
           >
             <div className="flex items-start gap-3 min-w-0">
@@ -52,7 +52,7 @@ const DocumentList = ({ documents = [], onDeleteDocument }) => {
 
             <div className="flex items-center gap-2 self-end sm:self-center">
               <Link
-                to={`/chat?doc=${doc.id || doc._id}`}
+                to={`/chat?doc=${doc.id}`}
                 className="btn-gradient inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold duration-150"
               >
                 <ChatCircleDotsIcon size={16} weight="bold" />
@@ -60,7 +60,7 @@ const DocumentList = ({ documents = [], onDeleteDocument }) => {
               </Link>
               <button
                 type="button"
-                onClick={() => onDeleteDocument?.(doc.id || doc._id)}
+                onClick={() => onDeleteDocument?.(doc.id)}
                 aria-label="Delete document"
                 className="flex size-8 items-center justify-center rounded-lg text-grey hover:bg-red-50 hover:text-red-500 duration-150"
               >

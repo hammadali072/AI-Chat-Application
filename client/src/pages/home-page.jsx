@@ -1,11 +1,12 @@
+import { UploadSimpleIcon, ChatCircleDotsIcon } from '@phosphor-icons/react';
+
 import Navbar from '../components/navbar/navbar';
 import HeroSection from '../components/heroSection/heroSection';
 import OptionCard from '../components/optionCard/optionCard';
-import { UploadSimpleIcon, ChatCircleDotsIcon } from '@phosphor-icons/react';
 
 const HomePage = () => {
   return (
-    <div className="min-h-screen bg-tint-gray flex flex-col">
+    <div className="min-h-screen flex flex-col">
 
       <Navbar />
 
@@ -15,12 +16,8 @@ const HomePage = () => {
             <HeroSection />
 
             <div className="mt-8 mb-6 text-center">
-              <h2 className="text-xl font-bold tracking-tight text-black sm:text-2xl">
-                Select Your Workspace
-              </h2>
-              <p className="mt-1 text-sm text-grey">
-                Choose an option below to manage PDF documents or start querying AI.
-              </p>
+              <h2 className="text-xl font-bold tracking-tight text-black sm:text-2xl">Select Your Workspace</h2>
+              <p className="mt-1 text-sm text-grey">Choose an option below to manage PDF documents or start querying AI.</p>
             </div>
 
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -42,7 +39,6 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-
       </main>
     </div>
   );

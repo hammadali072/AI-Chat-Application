@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+import { getAllDocuments, uploadPDF, deleteDocument } from '../services/documentServices';
+
 import Navbar from '../components/navbar/navbar';
 import UploadSection from '../components/uploadSection/uploadSection';
 import DocumentList from '../components/documentList/documentList';
-import { getAllDocuments, uploadPDF, deleteDocument } from '../services/documentServices';
 
 const UploadPage = () => {
   const [documents, setDocuments] = useState([]);
@@ -56,15 +57,13 @@ const UploadPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-tint-gray flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
 
       <main className="flex-1 py-8">
         <div className="container">
           <div className="mb-8">
-            <h1 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
-              Document Upload &amp; Management
-            </h1>
+            <h1 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">Document Upload &amp; Management</h1>
             <p className="mt-1 text-sm text-grey">Upload PDF documents from your device and manage your document library.</p>
           </div>
 

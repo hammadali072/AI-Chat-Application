@@ -20,7 +20,6 @@ const ChatWindow = ({
 
   return (
     <div className="card-inset rounded-2xl overflow-hidden h-full min-h-[540px] flex flex-col bg-white/90 border border-black/5">
-
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-black/5 glass-inset px-5 py-3.5">
         <div className="flex items-center gap-3">
           <div className="flex size-9 items-center justify-center rounded-lg bg-gradient-to-b from-primary-start to-primary-end text-white shadow-xs">
@@ -32,8 +31,6 @@ const ChatWindow = ({
           </div>
         </div>
 
-        {/* Document Selector Control (Icons only, no emojis) */}
-        {/* Document Selector Control */}
         <div className="flex items-center gap-3">
           {documents && documents.length > 0 && (
             <div className="relative flex items-center">
@@ -46,15 +43,11 @@ const ChatWindow = ({
                 id="doc-selector"
                 value={selectedDocumentId || 'all'}
                 onChange={(e) => onSelectDocument?.(e.target.value)}
-                className="appearance-none rounded-full border border-black/10 bg-white py-2 pl-8 pr-8
-                   text-xs font-semibold text-tint-black shadow-sm cursor-pointer
-                   max-w-[180px] sm:max-w-[240px] truncate
-                   hover:border-primary/40 focus:border-primary focus:ring-2 focus:ring-primary/15
-                   duration-150 outline-none"
+                className="appearance-none rounded-full border border-black/10 bg-white py-2 pl-8 pr-8 text-xs font-semibold text-tint-black shadow-sm cursor-pointer max-w-[180px] sm:max-w-[240px] truncate hover:border-primary/40 focus:border-primary focus:ring-2 focus:ring-primary/15 duration-150 outline-none"
               >
                 <option value="all">All Documents (Universal)</option>
                 {documents.map((doc) => (
-                  <option key={doc.id || doc._id} value={doc.id || doc._id}>
+                  <option key={doc.id} value={doc.id}>
                     {doc.fileName}
                   </option>
                 ))}
@@ -111,14 +104,11 @@ const ChatWindow = ({
               <ChatCircleIcon size={32} weight="duotone" />
             </div>
             <h4 className="text-lg font-bold text-black">Ask Anything About Your Documents</h4>
-            <p className="text-sm text-grey mt-1 max-w-md">
-              Type your question below to search and get instant answers grounded in your PDF content.
-            </p>
+            <p className="text-sm text-grey mt-1 max-w-md">Type your question below to search and get instant answers grounded in your PDF content.</p>
           </div>
         )}
       </div>
 
-      {/* Pinned Bottom Input */}
       <ChatInput
         value={inputValue}
         onChange={onInputChange}

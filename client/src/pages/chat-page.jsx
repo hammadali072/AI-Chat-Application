@@ -6,7 +6,7 @@ import { askQuestion, getAllDocuments } from '../services/documentServices';
 
 const ChatPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const docParam = searchParams.get('doc'); // Specific document ID if opened via "Chat with PDF" button
+  const docParam = searchParams.get('doc');
 
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
@@ -14,7 +14,6 @@ const ChatPage = () => {
   const [documents, setDocuments] = useState([]);
   const messagesEndRef = useRef(null);
 
-  // Load document list for document selector UI
   useEffect(() => {
     const fetchDocs = async () => {
       try {
@@ -29,7 +28,6 @@ const ChatPage = () => {
     fetchDocs();
   }, []);
 
-  // Auto-scroll to bottom of messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading]);
@@ -54,12 +52,16 @@ const ChatPage = () => {
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
 
-    setMessages((prev) => [...prev, userMsg]);
+    const thinkingMsg = {
+      id: 'thinking',
+      variant: 'thinking',
+    };
+
+    setMessages((prev) => [...prev, userMsg, thinkingMsg]);
     setInputValue('');
     setIsLoading(true);
 
     try {
-      // Send question and target docParam (if any) to backend
       const res = await askQuestion(userMsg.content, docParam);
 
       const aiMsg = {
@@ -69,7 +71,7 @@ const ChatPage = () => {
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
 
-      setMessages((prev) => [...prev, aiMsg]);
+      setMessages((prev) => prev.map((msg) => (msg.id === 'thinking' ? aiMsg : msg)));
     } catch (error) {
       console.error('Failed to get answer:', error);
       setMessages((prev) => [
@@ -81,26 +83,22 @@ const ChatPage = () => {
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         },
       ]);
+      setMessages((prev) => prev.map((msg) => (msg.id === 'thinking' ? errMsg : msg)));
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="h-screen bg-tint-gray flex flex-col overflow-hidden">
+    <div className="h-screen flex flex-col overflow-hidden">
       <Navbar />
 
       <main className="flex-1 py-4 sm:py-6 flex flex-col min-h-0">
         <div className="container flex-1 flex flex-col min-h-0">
 
-          {/* Page Header */}
           <div className="mb-4">
-            <h1 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
-              AI Document Chat
-            </h1>
-            <p className="mt-1 text-sm text-grey">
-              Ask questions and get instant AI answers grounded directly in your uploaded PDFs.
-            </p>
+            <h1 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">AI Document Chat</h1>
+            <p className="mt-1 text-sm text-grey">Ask questions and get instant AI answers grounded directly in your uploaded PDFs.</p>
           </div>
 
           <div className="flex-1 flex flex-col min-h-0 pb-4">

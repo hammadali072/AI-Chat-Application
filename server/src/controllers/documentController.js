@@ -84,7 +84,6 @@ export async function getAllDocuments(req, res) {
         id: doc._id,
         fileName: doc.fileName,
         status: doc.status,
-        chunksCount: doc.chunks ? doc.chunks.length : 0,
         uploadedAt: doc.createdAt,
     }));
 

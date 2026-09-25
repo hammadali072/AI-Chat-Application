@@ -15,9 +15,8 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-30 w-full border-b border-black/5 bg-white/90 backdrop-blur-md">
       <div className="container">
-        <div className="flex items-center justify-between px-4 sm:px-6 py-4">
+        <div className="flex items-center justify-between px-2 sm:px-6 py-4">
 
-          {/* Brand logo */}
           <Link to="/" className="flex items-center gap-3">
             <div className="flex size-9 items-center justify-center rounded-md bg-gradient-to-b from-primary-start to-primary-end text-white shadow-sm">
               <FilePdfIcon size={20} weight="bold" />
@@ -27,11 +26,10 @@ const Navbar = () => {
             </div>
           </Link>
 
-          {/* Action CTAs */}
           <div className="hidden items-center gap-3 md:flex">
             <Link
               to="/upload"
-              className="inline-flex items-center gap-1.5 rounded-md px-3.5 py-2 text-sm font-medium text-tint-black duration-150 hover:bg-tint-gray"
+              className="inline-flex items-center gap-1.5 rounded-md border border-black/10 px-3.5 py-2 text-sm font-medium text-tint-black duration-150 hover:bg-tint-gray"
             >
               <UploadSimpleIcon size={16} weight="bold" />
               <span>Upload</span>
@@ -45,7 +43,6 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Mobile menu toggle */}
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -57,43 +54,30 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile drawer */}
       {isMobileMenuOpen && (
         <div className="border-b border-black/5 bg-white px-4 py-4 md:hidden">
-          <div className="flex items-center justify-between pb-3">
-            <span className="text-sm font-semibold text-grey">Navigation</span>
-            <button
-              type="button"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="flex size-8 items-center justify-center rounded-lg text-grey hover:bg-tint-gray"
-            >
-              <XIcon size={18} weight="bold" />
-            </button>
-          </div>
-          <div className="flex flex-col gap-2">
-            {navItems.map((item) => (
+          <ul className="flex flex-col gap-2">
+            <li>
               <Link
-                key={item.path}
-                to={item.path}
+                to="/upload"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={clsx(
-                  'rounded-lg px-3 py-2 text-left text-sm font-medium',
-                  location.pathname === item.path
-                    ? 'bg-tint-gray text-primary font-semibold'
-                    : 'text-tint-black hover:bg-tint-gray/50'
-                )}
+                className="flex justify-center items-center gap-1.5 rounded-md border border-black/10 px-3.5 py-2 text-sm font-medium text-tint-black duration-150 hover:bg-tint-gray"
               >
-                {item.label}
+                <UploadSimpleIcon size={16} weight="bold" />
+                <span>Upload</span>
               </Link>
-            ))}
-            <Link
-              to="/upload"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="btn-gradient mt-2 w-full rounded-lg py-2.5 text-center text-sm font-medium block"
-            >
-              Upload Document
-            </Link>
-          </div>
+            </li>
+            <li>
+              <Link
+                to="/chat"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="btn-gradient flex justify-center items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium duration-150"
+              >
+                <ChatCircleDotsIcon size={16} weight="bold" />
+                <span>Ask AI</span>
+              </Link>
+            </li>
+          </ul>
         </div>
       )}
     </header>
